@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLC Database - Redirecting...</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .redirect-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 400px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        p {
+            margin: 0 0 20px 0;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        .manual-link {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .manual-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .countdown {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="spinner"></div>
+        <h1>MLC Database Connect</h1>
+        <p>Redirecting to the application...</p>
+        <a href="mlcDatabaseConnect.html" class="manual-link">Click here if not redirected automatically</a>
+        <div class="countdown" id="countdown">Redirecting in 3 seconds...</div>
+    </div>
+
+    <script>
+        // Automatic redirect after 3 seconds
+        let countdown = 3;
+        const countdownElement = document.getElementById('countdown');
+        
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            if (countdown > 0) {
+                countdownElement.textContent = `Redirecting in ${countdown} seconds...`;
+            } else {
+                countdownElement.textContent = 'Redirecting now...';
+                clearInterval(countdownInterval);
+                window.location.href = 'mlcDatabaseConnect.html';
+            }
+        }, 1000);
+        
+        // Immediate redirect if user clicks anywhere
+        document.addEventListener('click', () => {
+            clearInterval(countdownInterval);
+            window.location.href = 'mlcDatabaseConnect.html';
+        });
+        
+        // Also redirect on any key press
+        document.addEventListener('keydown', () => {
+            clearInterval(countdownInterval);
+            window.location.href = 'mlcDatabaseConnect.html';
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLC Database Connect</title>
+    <link rel="stylesheet" href="mlcDatabaseConnect.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <h1>MLC Database Connect</h1>
+                </div>
+                <div class="connection-status" id="connectionStatus">
+                    <span class="status-indicator disconnected"></span>
+                    <span class="status-text">Disconnected</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Authentication Section -->
+            <section class="auth-section" id="authSection">
+                <div class="card">
+                    <h2><i class="fas fa-key"></i> Authentication</h2>
+                    <form id="authForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Connect
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- API Operations Section -->
+            <section class="operations-section" id="operationsSection" style="display: none;">
+                <div class="operations-grid">
+                    <!-- Song Code Search -->
+                    <div class="card operation-card">
+                        <h3><i class="fas fa-search"></i> Song Code Search</h3>
+                        <form id="songSearchForm" class="operation-form">
+                            <div class="form-group">
+                                <label for="songTitle">Song Title</label>
+                                <input type="text" id="songTitle" name="title" placeholder="Enter song title">
+                            </div>
+                            <div class="form-group">
+                                <label for="writerFirstName">Writer First Name</label>
+                                <input type="text" id="writerFirstName" name="writerFirstName" placeholder="Optional">
+                            </div>
+                            <div class="form-group">
+                                <label for="writerLastName">Writer Last Name</label>
+                                <input type="text" id="writerLastName" name="writerLastName" placeholder="Optional">
+                            </div>
+                            <button type="submit" class="btn btn-secondary">
+                                <i class="fas fa-search"></i> Search Songs
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Recording Search -->
+                    <div class="card operation-card">
+                        <h3><i class="fas fa-microphone"></i> Recording Search</h3>
+                        <form id="recordingSearchForm" class="operation-form">
+                            <div class="form-group">
+                                <label for="recordingArtist">Artist</label>
+                                <input type="text" id="recordingArtist" name="artist" placeholder="Enter artist name">
+                            </div>
+                            <div class="form-group">
+                                <label for="recordingTitle">Recording Title</label>
+                                <input type="text" id="recordingTitle" name="title" placeholder="Enter recording title">
+                            </div>
+                            <div class="form-group">
+                                <label for="isrc">ISRC</label>
+                                <input type="text" id="isrc" name="isrc" placeholder="Enter ISRC code">
+                            </div>
+                            <button type="submit" class="btn btn-secondary">
+                                <i class="fas fa-search"></i> Search Recordings
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Work Details -->
+                    <div class="card operation-card">
+                        <h3><i class="fas fa-info-circle"></i> Work Details</h3>
+                        <form id="workDetailsForm" class="operation-form">
+                            <div class="form-group">
+                                <label for="workId">Work ID</label>
+                                <input type="text" id="workId" name="id" placeholder="Enter work ID" required>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">
+                                <i class="fas fa-info"></i> Get Details
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Multiple Works -->
+                    <div class="card operation-card">
+                        <h3><i class="fas fa-list"></i> Multiple Works</h3>
+                        <form id="multipleWorksForm" class="operation-form">
+                            <div class="form-group">
+                                <label for="mlcSongCodes">MLC Song Codes</label>
+                                <textarea id="mlcSongCodes" name="mlcSongCodes" placeholder="Enter MLC song codes (one per line)" rows="4"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">
+                                <i class="fas fa-list"></i> Get Works
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="card">
+                    <div class="results-header">
+                        <h3><i class="fas fa-chart-bar"></i> Results</h3>
+                        <button class="btn btn-small" id="clearResults">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                    <div class="results-content" id="resultsContent">
+                        <!-- Results will be displayed here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Processing request...</p>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div class="modal" id="errorModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Error</h3>
+                    <button class="modal-close" id="closeErrorModal">&times;</button>
+                </div>
+                <div class="modal-body" id="errorMessage">
+                    <!-- Error message will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="mlcDatabaseConnect.js"></script>
+</body>
+</html> 

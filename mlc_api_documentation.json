@@ -1,0 +1,582 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "MLC Public Search API",
+    "description": "MLC Public Search API",
+    "termsOfService": "https://themlc.com/musical-works-database-terms-use",
+    "contact": {
+      "name": "The MLC Data Team",
+      "url": "https://themlc.com",
+      "email": "bulk.data@themlc.com"
+    },
+    "license": {
+      "name": "License of API",
+      "url": "https://themlc.com/musical-works-database-terms-use"
+    },
+    "version": "1.2.0"
+  },
+  "tags": [
+    {
+      "name": "Authorization",
+      "description": "Authorisation"
+    },
+    {
+      "name": "Works",
+      "description": "Works"
+    },
+    {
+      "name": "Song Code Search",
+      "description": "Song Code Search"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://public-api.themlc.com/",
+      "description": "MLC Public API Server"
+    }
+  ],
+  "paths": {
+    "/oauth/token": {
+      "post": {
+        "tags": [
+          "Authorization"
+        ],
+        "summary": "getToken",
+        "operationId": "getTokenUsingPOST",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthRespoonse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/search/songcode": {
+      "post": {
+        "tags": [
+          "Song Code Search"
+        ],
+        "summary": "songCodeSearch",
+        "operationId": "songCodeSearchUsingPOST",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchWork"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchWorkResponse"
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/search/recordings": {
+      "post": {
+        "tags": [
+          "Song Code Search"
+        ],
+        "summary": "memberSearch",
+        "operationId": "memberSearchUsingPOST",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRecording"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Recording"
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/work/id/{id}": {
+      "get": {
+        "tags": [
+          "Works"
+        ],
+        "summary": "getWork",
+        "operationId": "getWorkUsingGET",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Work"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/works": {
+      "post": {
+        "tags": [
+          "Works"
+        ],
+        "summary": "getWorks",
+        "operationId": "getWorksUsingPOST",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/WorkQuery"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Work"
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Publisher": {
+        "title": "Publisher",
+        "type": "object",
+        "properties": {
+          "administrators": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Publisher"
+            }
+          },
+          "chainId": {
+            "type": "string"
+          },
+          "chainParentId": {
+            "type": "string"
+          },
+          "collectionShare": {
+            "type": "number",
+            "format": "bigdecimal"
+          },
+          "mlcPublisherNumber": {
+            "type": "string"
+          },
+          "parentPublishers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Publisher"
+            }
+          },
+          "publisherId": {
+            "type": "string"
+          },
+          "publisherIpiNumber": {
+            "type": "string"
+          },
+          "publisherName": {
+            "type": "string"
+          },
+          "publisherRoleCode": {
+            "type": "string"
+          }
+        }
+      },
+      "Work": {
+        "title": "Work",
+        "type": "object",
+        "properties": {
+          "akas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkAKA"
+            }
+          },
+          "artists": {
+            "type": "string"
+          },
+          "iswc": {
+            "type": "string"
+          },
+          "membersSongId": {
+            "type": "string"
+          },
+          "mlcSongCode": {
+            "type": "string"
+          },
+          "primaryTitle": {
+            "type": "string"
+          },
+          "publishers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Publisher"
+            }
+          },
+          "writers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Writer"
+            }
+          }
+        }
+      },
+      "WorkAKA": {
+        "title": "WorkAKA",
+        "type": "object",
+        "properties": {
+          "akaId": {
+            "type": "string"
+          },
+          "akaTitle": {
+            "type": "string"
+          },
+          "akaTitleTypeCode": {
+            "type": "string"
+          }
+        }
+      },
+      "WorkQuery": {
+        "title": "WorkQuery",
+        "type": "object",
+        "properties": {
+          "mlcsongCode": {
+            "type": "string"
+          }
+        }
+      },
+      "Writer": {
+        "title": "Writer",
+        "type": "object",
+        "properties": {
+          "chainId": {
+            "type": "string"
+          },
+          "chainParentId": {
+            "type": "string"
+          },
+          "writerFirstName": {
+            "type": "string"
+          },
+          "writerIPI": {
+            "type": "string"
+          },
+          "writerId": {
+            "type": "string"
+          },
+          "writerLastName": {
+            "type": "string"
+          },
+          "writerRoleCode": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchWork": {
+        "title": "SearchWork",
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "writers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchWriter"
+            }
+          }
+        }
+      },
+      "SearchWriter": {
+        "title": "SearchWriter",
+        "type": "object",
+        "properties": {
+          "writerFirstName": {
+            "type": "string"
+          },
+          "writerIPI": {
+            "type": "string"
+          },
+          "writerLastName": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchWorkResponse": {
+        "title": "Song",
+        "type": "object",
+        "properties": {
+          "iswc": {
+            "type": "string"
+          },
+          "mlcSongCode": {
+            "type": "string"
+          },
+          "workTitle": {
+            "type": "string"
+          },
+          "writers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchWriterResponse"
+            }
+          }
+        }
+      },
+      "SearchWriterResponse": {
+        "title": "SongWriter",
+        "type": "object",
+        "properties": {
+          "writerFirstName": {
+            "type": "string"
+          },
+          "writerIPI": {
+            "type": "string"
+          },
+          "writerId": {
+            "type": "string"
+          },
+          "writerLastName": {
+            "type": "string"
+          },
+          "writerRoleCode": {
+            "type": "string"
+          }
+        }
+      },
+      "Recording": {
+        "title": "Recording",
+        "type": "object",
+        "properties": {
+          "artist": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "isrc": {
+            "type": "string"
+          },
+          "labels": {
+            "type": "string"
+          },
+          "mlcsongCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchRecording": {
+        "title": "SearchRecording",
+        "type": "object",
+        "properties": {
+          "artist": {
+            "type": "string"
+          },
+          "isrc": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthRequest": {
+        "title": "AuthRequest",
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthRespoonse": {
+        "title": "AuthRespoonse",
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          },
+          "errorDescription": {
+            "type": "string"
+          },
+          "expiresIn": {
+            "type": "string"
+          },
+          "idToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+} 
